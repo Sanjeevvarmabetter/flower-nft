@@ -6,14 +6,14 @@ import Checkout from "./components/Checkout";
 
 // Sample products
 const initialProducts = [
-    { id: 1, name: "Rose", price: 1, image: "./flowers/1.jpeg" },
-    { id: 2, name: "Tulip", price: 1, image: "./flowers/2.jpeg" },
-    { id: 3, name: "Daisy", price: 1, image: "./flowers/3.jpeg" },
-    { id: 4, name: "Sunflower", price: 1, image: "./flowers/4.jpeg" },
-    { id: 5, name: "Lily", price: 1, image: "./flowers/5.jpeg" },
-    { id: 6, name: "Orchid", price: 1, image: "./flowers/6.jpeg" },
-    { id: 7, name: "Chrysanthemum", price: 1, image: "./flowers/7.jpg" },
-    { id: 8, name: "Pansy", price: 1, image: "./flowers/8.jpg" },
+    { id: 1, name: "Rose", price: 0.0001, image: "./flowers/1.jpeg" },
+    { id: 2, name: "Tulip", price: 0.0001, image: "./flowers/2.jpeg" },
+    { id: 3, name: "Daisy", price: 0.0001, image: "./flowers/3.jpeg" },
+    { id: 4, name: "Sunflower", price: 0.0001, image: "./flowers/4.jpeg" },
+    { id: 5, name: "Lily", price: 0.0001, image: "./flowers/5.jpeg" },
+    { id: 6, name: "Orchid", price: 0.0001, image: "./flowers/6.jpeg" },
+    { id: 7, name: "Chrysanthemum", price: 0.0001, image: "./flowers/7.jpg" },
+    { id: 8, name: "Pansy", price: 0.0001, image: "./flowers/8.jpg" },
 ];
 
 const App = () => {
@@ -22,11 +22,9 @@ const App = () => {
     const [isCheckedOut, setIsCheckedOut] = useState(false);
     const [soldProducts, setSoldProducts] = useState(new Set()); 
 
-    // Web3 integration
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
 
-t
     useEffect(() => {
         const storedSoldProducts = localStorage.getItem("soldProducts");
         if (storedSoldProducts) {
@@ -34,7 +32,7 @@ t
         }
     }, []);
 
-
+    // Function to connect to MetaMask
     const connectToMetamask = async () => {
         if (typeof window.ethereum !== "undefined") {
             try {
@@ -61,27 +59,24 @@ t
         }
     };
 
-   
     const checkout = async (totalPrice, productId) => {
         const totalPriceInWei = utils.parseEther(totalPrice.toString());
 
         if (signer) {
             try {
                 const transaction = await signer.sendTransaction({
-                    to: "0x7030aab4523EEDeB6562d22CA9F21F9b258fE0d9", // wallet address
-                    value: totalPriceInWei,
+                    to: "0x7030aab4523EEDeB6562d22CA9F21F9b258fE0d9",
                 });
 
                 await transaction.wait();
                 alert("Transaction successful");
 
-                // Update sold products
                 const updatedSoldProducts = new Set(soldProducts);
-                updatedSoldProducts.add(productId); 
+                updatedSoldProducts.add(productId); // Add productId to sold products
                 setSoldProducts(updatedSoldProducts);
-                localStorage.setItem("soldProducts", JSON.stringify([...updatedSoldProducts])); 
+                localStorage.setItem("soldProducts", JSON.stringify([...updatedSoldProducts])); // Store in local storage
 
-                setCart((prevCart) => prevCart.filter((item) => item.id !== productId)); 
+                setCart((prevCart) => prevCart.filter((item) => item.id !== productId)); // Remove from cart
                 setIsCheckedOut(true);
             } catch (error) {
                 console.error("Transaction failed", error);
@@ -92,11 +87,12 @@ t
         }
     };
 
-  
+    // Function to add product to cart
     const addToCart = (product) => {
         setCart((prevCart) => [...prevCart, product]);
     };
 
+    // Function to remove product from cart
     const removeFromCart = (productId) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
     };
@@ -117,7 +113,7 @@ t
                         checkout={(totalPrice) => {
                             if (cart.length > 0) {
                                 const productId = cart[0].id; 
-                                checkout(totalPrice, productId); 
+                                checkout(totalPrice, productId);
                             }
                         }} 
                     />
