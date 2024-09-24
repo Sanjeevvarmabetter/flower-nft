@@ -20,13 +20,13 @@ const App = () => {
     const [products] = useState(initialProducts);
     const [cart, setCart] = useState([]);
     const [isCheckedOut, setIsCheckedOut] = useState(false);
-    const [soldProducts, setSoldProducts] = useState(new Set()); // Track sold products
+    const [soldProducts, setSoldProducts] = useState(new Set()); 
 
     // Web3 integration
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
 
-    // Load sold products from local storage on component mount
+t
     useEffect(() => {
         const storedSoldProducts = localStorage.getItem("soldProducts");
         if (storedSoldProducts) {
@@ -34,7 +34,7 @@ const App = () => {
         }
     }, []);
 
-    // Function to connect to MetaMask
+
     const connectToMetamask = async () => {
         if (typeof window.ethereum !== "undefined") {
             try {
@@ -61,14 +61,14 @@ const App = () => {
         }
     };
 
-    // Function to handle checkout
+   
     const checkout = async (totalPrice, productId) => {
         const totalPriceInWei = utils.parseEther(totalPrice.toString());
 
         if (signer) {
             try {
                 const transaction = await signer.sendTransaction({
-                    to: "0x7030aab4523EEDeB6562d22CA9F21F9b258fE0d9", // Your wallet address
+                    to: "0x7030aab4523EEDeB6562d22CA9F21F9b258fE0d9", // wallet address
                     value: totalPriceInWei,
                 });
 
@@ -77,11 +77,11 @@ const App = () => {
 
                 // Update sold products
                 const updatedSoldProducts = new Set(soldProducts);
-                updatedSoldProducts.add(productId); // Add productId to sold products
+                updatedSoldProducts.add(productId); 
                 setSoldProducts(updatedSoldProducts);
-                localStorage.setItem("soldProducts", JSON.stringify([...updatedSoldProducts])); // Store in local storage
+                localStorage.setItem("soldProducts", JSON.stringify([...updatedSoldProducts])); 
 
-                setCart((prevCart) => prevCart.filter((item) => item.id !== productId)); // Remove from cart
+                setCart((prevCart) => prevCart.filter((item) => item.id !== productId)); 
                 setIsCheckedOut(true);
             } catch (error) {
                 console.error("Transaction failed", error);
@@ -92,12 +92,11 @@ const App = () => {
         }
     };
 
-    // Function to add product to cart
+  
     const addToCart = (product) => {
         setCart((prevCart) => [...prevCart, product]);
     };
 
-    // Function to remove product from cart
     const removeFromCart = (productId) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
     };
@@ -117,8 +116,8 @@ const App = () => {
                         removeFromCart={removeFromCart} 
                         checkout={(totalPrice) => {
                             if (cart.length > 0) {
-                                const productId = cart[0].id; // Get the first item's id for checkout
-                                checkout(totalPrice, productId); // Pass the productId to checkout
+                                const productId = cart[0].id; 
+                                checkout(totalPrice, productId); 
                             }
                         }} 
                     />
