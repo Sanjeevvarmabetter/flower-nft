@@ -14,9 +14,13 @@ const App = () => {
     const [products] = useState(initialProducts);
     const [cart, setCart] = useState([]);
     const [isCheckedOut, setIsCheckedOut] = useState(false);
+    const [soldProducts, setSoldProducts] = useState([]);
+
 
     const addToCart = (product) => {
         setCart((prevCart) => [...prevCart, product]);
+
+        setSoldProducts((prevIds) => [...prevIds, product.id]);
     };
 
     const removeFromCart = (productId) => {
@@ -28,12 +32,14 @@ const App = () => {
         setCart([]); 
     };
 
+    const availableProducts = products.filter(product => !soldProducts.includes(product.id));
+
     return (
         <div className="App">
             <h1>Flower Shop</h1>
             {!isCheckedOut ? (
                 <>
-                    <Product products={products} addToCart={addToCart} />
+                    <Product products={availableProducts} addToCart={addToCart} />
                     <Cart cart={cart} removeFromCart={removeFromCart} checkout={checkout} />
                 </>
             ) : (
