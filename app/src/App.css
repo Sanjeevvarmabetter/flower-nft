@@ -64,10 +64,16 @@ h1 {
 
 .cart-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.cart-item img {
+  width: 110px; 
+  height: auto;
+  border-radius: 4px; 
+  margin-right: 10px; 
 }
 
 .cart-item:last-child {

@@ -9,6 +9,8 @@ const Cart = ({ cart, removeFromCart, checkout }) => {
             ) : (
                 cart.map((item) => (
                     <div key={item.id} className="cart-item">
+                                                <img src={item.image} alt={item.name} className="cart-item-image" />
+
                         <span>{item.name}</span>
                         <button onClick={() => removeFromCart(item.id)}>Remove</button>
                     </div>
