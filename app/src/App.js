@@ -93,7 +93,13 @@ const App = () => {
 
     // Function to add product to cart
     const addToCart = (product) => {
-        setCart((prevCart) => [...prevCart, product]);
+        const isProductInCart = cart.some((item) => item.id === product.id);
+        if(!isProductInCart) {
+            setCart((prevCart) => [...prevCart, product]);
+        }
+        else {
+            alert("The particular NFT already exists in your cart");
+        }
     };
 
     // Function to remove product from cart
