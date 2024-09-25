@@ -59,13 +59,17 @@ const App = () => {
         }
     };
 
-    const checkout = async (totalPrice, productId) => {
-        const totalPriceInWei = utils.parseEther(totalPrice.toString());
+
+    const checkout = async ( productId) => {
+        const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+        // floating point eror fix: use ToFixed(18) this ensures that total price is formatted to 18 decimmal places
+        const totalPriceInWei = utils.parseEther(totalPrice.toFixed(18).toString());
 
         if (signer) {
             try {
                 const transaction = await signer.sendTransaction({
                     to: "0x7030aab4523EEDeB6562d22CA9F21F9b258fE0d9",
+                    value: totalPriceInWei
                 });
 
                 await transaction.wait();
@@ -110,12 +114,7 @@ const App = () => {
                     <Cart 
                         cart={cart} 
                         removeFromCart={removeFromCart} 
-                        checkout={(totalPrice) => {
-                            if (cart.length > 0) {
-                                const productId = cart[0].id; 
-                                checkout(totalPrice, productId);
-                            }
-                        }} 
+                        checkout={checkout} 
                     />
                 </>
             ) : (
