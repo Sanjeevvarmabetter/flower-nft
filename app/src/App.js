@@ -34,7 +34,6 @@ const App = () => {
         }
     }, []);
 
-    // Function to connhttps://www.linkedin.com/in/praneethvarmaect to MetaMask
     const connectToMetamask = async () => {
         if (typeof window.ethereum !== "undefined") {
             try {
