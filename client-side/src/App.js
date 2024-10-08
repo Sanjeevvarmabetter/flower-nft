@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
-import ActiveListings from "./Activelistings.js";
-const App = () => {
-  return (
-    <div>
-      <ActiveListings />
-    </div>
-  )
-};
+// src/App.js
+import React from "react";
+import { Container } from "@mui/material";
+import Listing from "./Listing";
 
+function App() {
+    return (
+        <Container maxWidth="lg">
+            <h1>NFT Marketplace</h1>
+            <Listing />
+        </Container>
+    );
+}
 
 export default App;
