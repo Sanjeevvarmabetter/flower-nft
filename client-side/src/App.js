@@ -5,10 +5,13 @@ import Listing from "./Listing";
 
 function App() {
     return (
-        <Container maxWidth="lg">
+      <div className="MainApp">
+                <Container maxWidth="lg">
             <h1>NFT Marketplace</h1>
             <Listing />
         </Container>
+      </div>
+
     );
 }
 
